@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Login.verification">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="325dp"
+        android:layout_height="81dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="100dp"
+        android:text="Please type the verification code"
+        android:textSize="30dp"
+        android:textAlignment="center"
+        tools:layout_editor_absoluteX="104dp"
+        tools:layout_editor_absoluteY="176dp" />
+
+    <com.chaos.view.PinView
+        style="@style/PinWidget.PinView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:height="45dp"
+        android:inputType="number"
+        android:padding="10dp"
+        android:textSize="18dp"
+        app:itemCount="4"
+        app:itemRadius="10dp"
+        app:viewType="rectangle">
+
+    </com.chaos.view.PinView>
+
+    <Button
+        android:id="@+id/angry_btn"
+        android:text="Submit"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:layout_marginTop="50dp"
+        android:layout_gravity="center"
+
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:background="@drawable/white_app_button"
+        />
+</LinearLayout>
