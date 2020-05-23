@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Amour</string>
+    <string-array name="gender">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Lesbian</item>
+        <item>Gay</item>
+        <item>Bisexual</item>
+        <item>Transgender</item>
+        <item>Queer</item>
+    </string-array>
+    <string-array name="edu_level">
+        <item>Undergrad</item>
+        <item>Graduate</item>
+        <item>PHD</item>
+    </string-array>
 </resources>

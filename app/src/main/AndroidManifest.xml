@@ -13,6 +13,7 @@
         <activity android:name=".match.match_homescreen" />
         <activity android:name=".Login.Sign_up" />
         <activity android:name=".Login.Login" />
+        <activity android:name=".Login.Form"/>
         <activity android:name=".MainActivity"/>
 
         <activity
