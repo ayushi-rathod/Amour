@@ -13,7 +13,11 @@
         <activity android:name=".match.match_homescreen" />
         <activity android:name=".Login.Sign_up" />
         <activity android:name=".Login.Login" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"/>
+
+        <activity
+            android:name=".SplashActivity"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
