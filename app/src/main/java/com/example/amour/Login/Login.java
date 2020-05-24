@@ -35,7 +35,7 @@ public class Login extends AppCompatActivity {
         loginButton = findViewById(R.id.angry_btn);
         loginButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                mAuth.signInWithEmailAndPassword(username.toString(), password.toString()).addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
+                mAuth.signInWithEmailAndPassword(username.getText().toString().trim(), password.getText().toString().trim()).addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
