@@ -66,8 +66,8 @@
                 android:layout_marginBottom="20dp"
                 android:ems="10"
                 android:hint="Username"
-                android:singleLine="true"
                 android:inputType="textEmailAddress"
+                android:singleLine="true"
                 app:layout_constraintBottom_toTopOf="@+id/editText_password"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView2" />
