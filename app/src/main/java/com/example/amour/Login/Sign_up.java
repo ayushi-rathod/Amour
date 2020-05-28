@@ -3,6 +3,8 @@ package com.example.amour.Login;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.amour.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,6 +30,7 @@ public class Sign_up extends AppCompatActivity {
     EditText fullname, email, username, password;
     Button signUpButton;
     TextView error_msg;
+    boolean isError;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,14 +43,38 @@ public class Sign_up extends AppCompatActivity {
         password = findViewById(R.id.editText_password);
         error_msg = findViewById(R.id.error_msg);
         signUpButton = findViewById(R.id.sign_up_btn);
+        isError = false;
 
         // Client-Side Validations
 
         fullname.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                if (!b && fullname.getText().length() == 0) {
-                    fullname.setError("Please enter your full Name");
+                error_msg.setText("");
+                if (!b && fullname.getText().toString().isEmpty()) {
+                    fullname.setError("Please enter your full name");
+                }
+            }
+        });
+
+        email.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                error_msg.setText("");
+                if (email.getText().toString().matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+                    email.setError("Please enter university email");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (email.getText().toString().isEmpty()) {
+                    email.setError("Please enter a valid email");
                 }
             }
         });
@@ -59,29 +87,18 @@ public class Sign_up extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                error_msg.setText("");
                 String str = charSequence.toString();
-                if(str.length() > 0 && str.contains(" ")) {
+                if(!str.isEmpty() && str.contains(" ")) {
                     username.setError("Space is not allowed");
                 }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (username.getText().length() == 0) {
+                if (username.getText().toString().isEmpty()) {
+                    isError = true;
                     username.setError("Please enter your username");
-                }
-            }
-        });
-
-        email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if (!b && email.getText().length() == 0) {
-                    email.setError("Please enter your email");
-                }
-
-                if (!b && !email.getText().toString().matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
-                    email.setError("Please enter university email");
                 }
             }
         });
@@ -94,14 +111,20 @@ public class Sign_up extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (password.length() > 0 && password.length() < 6) {
+                error_msg.setText("");
+                if (!password.getText().toString().isEmpty() && password.length() < 6) {
                     password.setError("Password must be 6 characters");
+                } else {
+                    Drawable myIcon = getResources().getDrawable(R.drawable.tick_mark);
+                    myIcon.setBounds(0, 0, 90, 90);
+                    password.setError("Good", myIcon);
                 }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (password.getText().length() == 0) {
+                if (password.getText().toString().isEmpty()) {
+                    isError = true;
                     password.setError("Please enter your password");
                 }
             }
@@ -109,26 +132,34 @@ public class Sign_up extends AppCompatActivity {
 
         signUpButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                mAuth.createUserWithEmailAndPassword(username.getText().toString().trim(), password.getText().toString().trim()).addOnCompleteListener(Sign_up.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(Sign_up.this, "Successfully Registered", Toast.LENGTH_LONG).show();
-                        } else {
-                            try {
-                                throw task.getException();
-                            } catch(FirebaseAuthWeakPasswordException e) {
+                if (fullname.getText().toString().isEmpty() || username.getText().toString().isEmpty() ||
+                        email.getText().toString().isEmpty() || password.getText().toString().isEmpty()) {
+                    error_msg.setText("Please provide a valid input!!");
+                    return;
+                } else {
+                    mAuth.createUserWithEmailAndPassword(username.getText().toString().trim(), password.getText().toString().trim()).addOnCompleteListener(Sign_up.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                Intent intent = new Intent(Sign_up.this, Form.class);
+                                startActivity(intent);
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            if (e instanceof FirebaseAuthWeakPasswordException) {
                                 error_msg.setError("Weak Password - minimum should be 6 char");
-                            } catch(FirebaseAuthInvalidCredentialsException e) {
+                            } else if (e instanceof FirebaseAuthInvalidCredentialsException) {
                                 error_msg.setError("Invalid email address");
-                            } catch(FirebaseAuthUserCollisionException e) {
+                            } else if (e instanceof FirebaseAuthUserCollisionException) {
                                 error_msg.setError("user already exist");
-                            } catch(Exception e) {
+                            } else {
                                 Log.e("Sign_up", e.getMessage());
                             }
                         }
-                    }
-                });
+                    });
+                }
             }
         });
     }
