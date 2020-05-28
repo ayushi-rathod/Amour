@@ -66,7 +66,7 @@ public class Sign_up extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 error_msg.setText("");
-                if (email.getText().toString().matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+                if (!email.getText().toString().matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")) {
                     email.setError("Please enter university email");
                 }
             }
@@ -134,31 +134,32 @@ public class Sign_up extends AppCompatActivity {
             public void onClick(View v) {
                 if (fullname.getText().toString().isEmpty() || username.getText().toString().isEmpty() ||
                         email.getText().toString().isEmpty() || password.getText().toString().isEmpty()) {
-                    error_msg.setText("Please provide a valid input!!");
+                        error_msg.setText("Please provide a valid input!!");
                     return;
                 } else {
-                    mAuth.createUserWithEmailAndPassword(username.getText().toString().trim(), password.getText().toString().trim()).addOnCompleteListener(Sign_up.this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                Intent intent = new Intent(Sign_up.this, Form.class);
-                                startActivity(intent);
-                            }
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            if (e instanceof FirebaseAuthWeakPasswordException) {
-                                error_msg.setError("Weak Password - minimum should be 6 char");
-                            } else if (e instanceof FirebaseAuthInvalidCredentialsException) {
-                                error_msg.setError("Invalid email address");
-                            } else if (e instanceof FirebaseAuthUserCollisionException) {
-                                error_msg.setError("user already exist");
-                            } else {
-                                Log.e("Sign_up", e.getMessage());
-                            }
-                        }
-                    });
+                    mAuth.createUserWithEmailAndPassword(email.getText().toString().trim(), password.getText().toString().trim())
+                            .addOnCompleteListener(Sign_up.this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        Intent intent = new Intent(Sign_up.this, Form.class);
+                                        startActivity(intent);
+                                    }
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    if (e instanceof FirebaseAuthWeakPasswordException) {
+                                        error_msg.setError("Weak Password - minimum should be 6 char");
+                                    } else if (e instanceof FirebaseAuthInvalidCredentialsException) {
+                                        error_msg.setError("Invalid email address");
+                                    } else if (e instanceof FirebaseAuthUserCollisionException) {
+                                        error_msg.setError("user already exist");
+                                    } else {
+                                        Log.e("Sign_up", e.getLocalizedMessage());
+                                    }
+                                }
+                            });
                 }
             }
         });
