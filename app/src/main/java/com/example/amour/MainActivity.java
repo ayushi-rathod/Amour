@@ -31,6 +31,10 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Intent homeIntent = new Intent(this, match_homescreen.class);
             startActivity(homeIntent);
+
+            //setContentView(R.layout.activity_main);
+            setContentView(R.layout.activity_match_homescreen);
+
         }
     }
 }
