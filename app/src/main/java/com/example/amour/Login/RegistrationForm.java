@@ -16,7 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.amour.R;
-import com.example.amour.match.MatchHomescreen;
+import com.example.amour.match.HomeScreen;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -109,7 +109,7 @@ public class RegistrationForm extends AppCompatActivity implements View.OnClickL
             public void onClick(View view) {
                 if (validateInput()) {
                     saveData();
-                    Intent intent = new Intent(RegistrationForm.this, MatchHomescreen.class);
+                    Intent intent = new Intent(RegistrationForm.this, HomeScreen.class);
                     startActivity(intent);
                 } else {
                     Toast.makeText(RegistrationForm.this, "Please enter your details!", Toast.LENGTH_LONG).show();

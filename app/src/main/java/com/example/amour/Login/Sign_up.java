@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.amour.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -89,7 +88,7 @@ public class Sign_up extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 error_msg.setText("");
                 String str = charSequence.toString();
-                if(!str.isEmpty() && str.contains(" ")) {
+                if (!str.isEmpty() && str.contains(" ")) {
                     username.setError("Space is not allowed");
                 }
             }
@@ -134,7 +133,7 @@ public class Sign_up extends AppCompatActivity {
             public void onClick(View v) {
                 if (fullname.getText().toString().isEmpty() || username.getText().toString().isEmpty() ||
                         email.getText().toString().isEmpty() || password.getText().toString().isEmpty()) {
-                        error_msg.setText("Please provide a valid input!!");
+                    error_msg.setText("Please provide a valid input!!");
                     return;
                 } else {
                     mAuth.createUserWithEmailAndPassword(email.getText().toString().trim(), password.getText().toString().trim())
@@ -142,24 +141,24 @@ public class Sign_up extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
-                                        Intent intent = new Intent(Sign_up.this, RegistrationForm.class);
+                                        Intent intent = new Intent(Sign_up.this, verification.class);
                                         startActivity(intent);
                                     }
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    if (e instanceof FirebaseAuthWeakPasswordException) {
-                                        error_msg.setError("Weak Password - minimum should be 6 char");
-                                    } else if (e instanceof FirebaseAuthInvalidCredentialsException) {
-                                        error_msg.setError("Invalid email address");
-                                    } else if (e instanceof FirebaseAuthUserCollisionException) {
-                                        error_msg.setError("user already exist");
-                                    } else {
-                                        Log.e("Sign_up", e.getLocalizedMessage());
-                                    }
-                                }
-                            });
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            if (e instanceof FirebaseAuthWeakPasswordException) {
+                                error_msg.setError("Weak Password - minimum should be 6 char");
+                            } else if (e instanceof FirebaseAuthInvalidCredentialsException) {
+                                error_msg.setError("Invalid email address");
+                            } else if (e instanceof FirebaseAuthUserCollisionException) {
+                                error_msg.setError("user already exist");
+                            } else {
+                                Log.e("Sign_up", e.getLocalizedMessage());
+                            }
+                        }
+                    });
                 }
             }
         });

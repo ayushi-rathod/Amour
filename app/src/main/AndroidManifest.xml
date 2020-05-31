@@ -13,8 +13,8 @@
         <activity android:name=".match.HomeScreen" />
         <activity android:name=".Login.Sign_up" />
         <activity android:name=".Login.Login" />
-        <activity android:name=".Login.RegistrationForm"/>
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".Login.RegistrationForm" />
+        <activity android:name=".MainActivity" />
         <activity
             android:name=".SplashActivity"
             android:theme="@style/SplashTheme">
