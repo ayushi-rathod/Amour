@@ -21,6 +21,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+import com.example.amour.match.HomeScreen;
+import com.google.firebase.auth.FirebaseUser;
 
 public class Login extends AppCompatActivity {
     private FirebaseAuth mAuth;
@@ -48,7 +50,7 @@ public class Login extends AppCompatActivity {
                     username.setError("Please enter your username");
                 }
             }
-        }); ;
+        });
 
         password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -71,6 +73,14 @@ public class Login extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 Toast.makeText(Login.this, "Successfully Logged In", Toast.LENGTH_LONG).show();
+                                FirebaseUser currentUser = mAuth.getCurrentUser();
+                                if (!currentUser.isEmailVerified()) {
+                                    Intent verificationIntent = new Intent(Login.this, verification.class);
+                                    startActivity(verificationIntent);
+                                } else {
+                                    Intent homeIntent = new Intent(Login.this, HomeScreen.class);
+                                    startActivity(homeIntent);
+                                }
                             } else {
                                 Toast.makeText(Login.this, "Login Failed", Toast.LENGTH_LONG).show();
                             }
@@ -85,7 +95,7 @@ public class Login extends AppCompatActivity {
                             } else if (e instanceof FirebaseAuthUserCollisionException) {
                                 error_msg.setError(e.getLocalizedMessage());
                             } else {
-                                Log.e("Sign_up", e.getMessage());
+                                Log.e("Login", e.getMessage());
                             }
                         }
                     });
