@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Login.verification" />
-        <activity android:name=".match.match_homescreen" />
+        <activity android:name=".match.HomeScreen" />
         <activity android:name=".Login.Sign_up" />
         <activity android:name=".Login.Login" />
         <activity android:name=".Login.RegistrationForm"/>

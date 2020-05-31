@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.amour.Login.Login;
-import com.example.amour.match.match_homescreen;
+import com.example.amour.match.MatchHomescreen;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -25,11 +25,14 @@ public class MainActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
+
+//        Intent loginIntent = new Intent(this, RegistrationForm.class);
+//        startActivity(loginIntent);
         if (currentUser == null) {
             Intent loginIntent = new Intent(this, Login.class);
             startActivity(loginIntent);
         } else {
-            Intent homeIntent = new Intent(this, match_homescreen.class);
+            Intent homeIntent = new Intent(this, MatchHomescreen.class);
             startActivity(homeIntent);
 
             //setContentView(R.layout.activity_main);
