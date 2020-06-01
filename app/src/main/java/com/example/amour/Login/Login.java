@@ -29,7 +29,7 @@ public class Login extends AppCompatActivity {
     EditText username, password;
     Button loginButton;
     TextView textView;
-    TextView error_msg;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +40,10 @@ public class Login extends AppCompatActivity {
         password = findViewById(R.id.editText_password);
         textView = findViewById(R.id.textView);
         loginButton = findViewById(R.id.login_btn);
-        error_msg = findViewById(R.id.error_msg);
 
         username.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                error_msg.setText("");
                 if (username.getText().length() == 0) {
                     username.setError("Please enter your username");
                 }
@@ -55,7 +53,6 @@ public class Login extends AppCompatActivity {
         password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                error_msg.setText("");
                 if (password.getText().length() == 0) {
                     password.setError("Please enter your password");
                 }
@@ -65,7 +62,6 @@ public class Login extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (username.getText().length() == 0 || password.getText().length() == 0) {
-                    error_msg.setText("Please enter username and password");
                     return;
                 } else {
                     mAuth.signInWithEmailAndPassword(username.getText().toString().trim(), password.getText().toString().trim()).addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
@@ -89,11 +85,11 @@ public class Login extends AppCompatActivity {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             if (e instanceof FirebaseAuthWeakPasswordException) {
-                                error_msg.setError("Invalid Password");
+                                //error_msg.setError("Invalid Password");
                             } else if (e instanceof FirebaseAuthInvalidCredentialsException) {
-                                error_msg.setError("No account with this email");
+                               // error_msg.setError("No account with this email");
                             } else if (e instanceof FirebaseAuthUserCollisionException) {
-                                error_msg.setError(e.getLocalizedMessage());
+                               // error_msg.setError(e.getLocalizedMessage());
                             } else {
                                 Log.e("Login", e.getMessage());
                             }

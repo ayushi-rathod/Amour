@@ -11,70 +11,15 @@
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/gender_pref"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="32dp"
-                android:backgroundTint="#FFFFFF"
-                android:text="Gender:"
-                android:textColor="@color/colorPrimary"
-                android:textColorHint="#FFFFFF"
-                android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/height_range" />
-
-            <Spinner
-                android:id="@+id/pref_gender_spinner"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginEnd="16dp"
-                android:background="#FFFFFF"
-                android:entries="@array/gender"
-                android:spinnerMode="dropdown"
-                app:layout_constraintBottom_toBottomOf="@+id/gender_pref"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/height_range"
-                app:layout_constraintTop_toBottomOf="@+id/height_range"
-                app:layout_constraintTop_toTopOf="@+id/gender_pref" />
-
-            <TextView
-                android:id="@+id/textView15"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:backgroundTint="#FFFFFF"
-                android:text="Height Range:"
-                android:textColor="@color/colorPrimary"
-                android:textColorHint="#FFFFFF"
-                android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="@+id/textView14"
-                app:layout_constraintTop_toTopOf="@+id/height_range" />
-
-            <org.florescu.android.rangeseekbar.RangeSeekBar
-                android:id="@+id/height_range"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="60dp"
-                android:layout_marginEnd="16dp"
-                android:background="#FFFFFF"
-                app:showLabels="false"
-                app:absoluteMaxValue="8"
-                app:absoluteMinValue="3"
-                app:activeColor="#000000"
-                app:defaultColor="#000000"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/textView15"
-                app:layout_constraintTop_toBottomOf="@+id/textView14"
-                app:textAboveThumbsColor="#000000" />
 
             <EditText
                 android:id="@+id/i_appreciate_editText"
@@ -85,11 +30,11 @@
                 android:layout_marginEnd="16dp"
                 android:ems="10"
                 android:gravity="start|top"
+                android:hint="is humurous but also laughs on my 'not so funny jokes' and love to try new things."
                 android:inputType="textMultiLine"
                 android:textColor="#000000"
                 android:textSize="20sp"
                 android:visibility="visible"
-                android:hint="is humurous but also laughs on my 'not so funny jokes' and love to try new things."
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -109,19 +54,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/i_like_editText" />
 
-            <TextView
-                android:id="@+id/textView14"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginStart="16dp"
-                android:backgroundTint="#FFFFFF"
-                android:text="Age Range:"
-                android:textColor="@color/colorPrimary"
-                android:textColorHint="#FFFFFF"
-                android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/age_range" />
-
             <EditText
                 android:id="@+id/i_like_editText"
                 android:layout_width="0dp"
@@ -131,25 +63,23 @@
                 android:layout_marginEnd="16dp"
                 android:ems="10"
                 android:gravity="start|top"
+                android:hint="going out for hiking as much as I like staying in and reading books."
                 android:inputType="textMultiLine"
                 android:maxLength="200"
                 android:textColor="#000000"
                 android:textSize="20sp"
                 android:visibility="visible"
-                android:hint="going out for hiking as much as I like staying in and reading books."
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toEndOf="@+id/textView10"
                 app:layout_constraintTop_toBottomOf="@+id/i_am_editText" />
 
-            <Spinner
+            <TextView
                 android:id="@+id/degree_spinner"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="16dp"
-                android:entries="@array/edu_level"
-                android:spinnerMode="dropdown"
                 app:layout_constraintBottom_toBottomOf="@+id/textView8"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView8"
@@ -197,21 +127,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/i_like_editText" />
 
-            <TextView
-                android:id="@+id/textView12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="32dp"
-                android:backgroundTint="#FFFFFF"
-                android:text="Preferences:"
-                android:textColor="@color/colorPrimary"
-                android:textColorHint="#FFFFFF"
-                android:textSize="30sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/i_appreciate_editText" />
-
 
             <TextView
                 android:id="@+id/textView5"
@@ -245,9 +160,9 @@
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="16dp"
                 android:inputType="number"
+                android:maxLength="2"
                 android:textColor="#000000"
                 android:textSize="20sp"
-                android:maxLength="2"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="@+id/textView3"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -260,22 +175,20 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:inputType="number|numberDecimal"
+                android:maxLength="3"
                 android:textColor="#000000"
                 android:textSize="20sp"
-                android:maxLength="3"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="@+id/textView5"
                 app:layout_constraintEnd_toEndOf="@+id/age_editText"
                 app:layout_constraintStart_toStartOf="@+id/gender_spinner"
                 app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
-            <Spinner
+            <TextView
                 android:id="@+id/gender_spinner"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginEnd="16dp"
-                android:entries="@array/gender"
-                android:spinnerMode="dropdown"
                 app:layout_constraintBottom_toBottomOf="@+id/textView7"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/degree_spinner"
@@ -295,29 +208,10 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
-            <org.florescu.android.rangeseekbar.RangeSeekBar
-                android:id="@+id/age_range"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="16dp"
-                app:showLabels="false"
-                android:background="#FFFFFF"
-                app:absoluteMaxValue="100"
-                app:absoluteMinValue="18"
-                app:activeColor="#000000"
-                app:defaultColor="#000000"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.74"
-                app:layout_constraintStart_toEndOf="@+id/textView14"
-                app:layout_constraintStart_toStartOf="@+id/height_range"
-                app:layout_constraintTop_toBottomOf="@+id/textView12"
-                app:textAboveThumbsColor="#000000" />
-
-            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile_pic"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
+                android:layout_width="0dp"
+                android:layout_height="350dp"
                 android:layout_marginTop="16dp"
                 android:src="@drawable/username_icon"
                 app:civ_border_color="#FF000000"
@@ -335,33 +229,17 @@
                 android:layout_marginEnd="16dp"
                 android:ems="10"
                 android:gravity="start|top"
+                android:hint="Passionate about food, love cats and code, and a total f.r.i.e.n.d.s fan!"
                 android:inputType="textMultiLine"
                 android:maxLength="200"
                 android:textColor="#000000"
                 android:textSize="20sp"
                 android:visibility="visible"
-                android:hint="Passionate about food, love cats and code, and a total f.r.i.e.n.d.s fan!"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView9"
                 app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
-            <Button
-                android:id="@+id/button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
-                android:layout_marginBottom="24dp"
-                android:background="@drawable/white_app_button"
-                android:shadowColor="#FFFFFF"
-                android:text="Save"
-                android:textColor="#FFFFFF"
-                android:textSize="24sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/pref_gender_spinner" />
-
-            <Button
+            <TextView
                 android:id="@+id/edit_pic_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -369,9 +247,9 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:background="@color/cardview_light_background"
-                android:text="Edit Profile Picture"
-                android:textColor="#303F9F"
-                android:textSize="14sp"
+                android:text="Victoria,19"
+                android:textColor="@color/colorAccent"
+                android:textSize="30dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/profile_pic" />

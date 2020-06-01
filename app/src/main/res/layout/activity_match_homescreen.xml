@@ -24,8 +24,7 @@
         app:backgroundTint="#ffffff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:menu="@menu/nav_items"
-        >
+        app:menu="@menu/nav_items">
 
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>

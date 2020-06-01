@@ -47,7 +47,7 @@ public class verification extends AppCompatActivity {
             public void onClick(View v) {
                 user.reload();
                 if (user.isEmailVerified()) {
-                    Intent homeIntent = new Intent(verification.this, HomeScreen.class);
+                    Intent homeIntent = new Intent(verification.this, RegistrationForm.class);
                     startActivity(homeIntent);
                 }
             }
