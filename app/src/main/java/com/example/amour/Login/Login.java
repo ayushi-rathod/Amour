@@ -85,13 +85,11 @@ public class Login extends AppCompatActivity {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             if (e instanceof FirebaseAuthWeakPasswordException) {
-                                //error_msg.setError("Invalid Password");
+                                Toast.makeText(Login.this, "Invalid Password!", Toast.LENGTH_LONG).show();
                             } else if (e instanceof FirebaseAuthInvalidCredentialsException) {
-                               // error_msg.setError("No account with this email");
+                                Toast.makeText(Login.this, "No account with this email!", Toast.LENGTH_LONG).show();
                             } else if (e instanceof FirebaseAuthUserCollisionException) {
-                               // error_msg.setError(e.getLocalizedMessage());
-                            } else {
-                                Log.e("Login", e.getMessage());
+                                Toast.makeText(Login.this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                             }
                         }
                     });

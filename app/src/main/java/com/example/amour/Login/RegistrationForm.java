@@ -19,13 +19,14 @@ import com.example.amour.R;
 import com.example.amour.match.HomeScreen;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.example.amour.Util.RegistrationFormHandler;
+import com.example.amour.Util.User;
 
 import org.florescu.android.rangeseekbar.RangeSeekBar;
 
@@ -33,7 +34,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class RegistrationForm extends AppCompatActivity implements View.OnClickListener {
-    Button edit_pic_btn, save_btn;
+    Button save_btn;
+    FloatingActionButton add_profile_pic;
     private static final int SELECT_PICTURE = 100;
     CircleImageView profile_pic;
     Spinner gender_spinner, degree_spinner, pref_gender_spinner;
@@ -52,7 +54,7 @@ public class RegistrationForm extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration_form);
-        edit_pic_btn = findViewById(R.id.edit_pic_btn);
+        add_profile_pic = findViewById(R.id.add_profile_picture);
         age_editText = findViewById(R.id.age_editText);
         height_editText = findViewById(R.id.height_editText);
         gender_spinner = findViewById(R.id.gender_spinner);
@@ -94,7 +96,7 @@ public class RegistrationForm extends AppCompatActivity implements View.OnClickL
         });
 
 
-        edit_pic_btn.setOnClickListener(new View.OnClickListener() {
+        add_profile_pic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 fileChooser();
@@ -153,12 +155,12 @@ public class RegistrationForm extends AppCompatActivity implements View.OnClickL
 
     private void saveData() {
         image_link = System.currentTimeMillis()+"."+getExtension(imageuri);
-        RegistrationFormHandler registrationForm = new RegistrationFormHandler(age_editText.getText().toString(), height_editText.getText().toString(),
+        User userDetails = new User(age_editText.getText().toString(), height_editText.getText().toString(),
                 i_am_editText.getText().toString(), i_appreciate_editText.getText().toString(), i_like_editText.getText().toString(),
                 pref_age_min_val, pref_age_max_val, pref_height_min_val, pref_height_max_val, pref_gender_spinner.getSelectedItem().toString(),
                 image_link);
         DatabaseReference myRef = db.getReference("userDetails");
-        myRef.child(mAuth.getCurrentUser().getUid()).setValue(registrationForm);
+        myRef.child(mAuth.getCurrentUser().getUid()).setValue(userDetails);
         fileUploader();
     }
     private String getExtension(Uri uri) {

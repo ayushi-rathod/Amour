@@ -19,33 +19,25 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(null);
         mAuth = FirebaseAuth.getInstance();
-        //checkUser();
-        Intent loginIntent = new Intent(this, Login.class);
-        startActivity(loginIntent);
+        checkUser();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        //checkUser();
-        Intent loginIntent = new Intent(this, Login.class);
-        startActivity(loginIntent);
+        checkUser();
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        //checkUser();
-        Intent loginIntent = new Intent(this, Login.class);
-        startActivity(loginIntent);
+        checkUser();
     }
 
     @Override
     public void onRestart() {
         super.onRestart();
-        //checkUser();
-        Intent loginIntent = new Intent(this, Login.class);
-        startActivity(loginIntent);
+        checkUser();
     }
 
     private void checkUser() {

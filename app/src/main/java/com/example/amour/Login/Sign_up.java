@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.amour.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -133,7 +134,7 @@ public class Sign_up extends AppCompatActivity {
             public void onClick(View v) {
                 if (editText_fullname1.getText().toString().isEmpty() || editText_username1.getText().toString().isEmpty() ||
                         editText_email1.getText().toString().isEmpty() || editText_password1.getText().toString().isEmpty()) {
-                    //error_msg.setText("Please provide a valid input!!");
+                        Toast.makeText(Sign_up.this, "Please provide a valid input!!", Toast.LENGTH_LONG).show();
                     return;
                 } else {
                     mAuth.createUserWithEmailAndPassword(editText_email1.getText().toString().trim(), editText_password1.getText().toString().trim())
@@ -149,12 +150,13 @@ public class Sign_up extends AppCompatActivity {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             if (e instanceof FirebaseAuthWeakPasswordException) {
-                                //error_msg.setError("Weak Password - minimum should be 6 char");
+                                Toast.makeText(Sign_up.this, "Weak Password - minimum should be 6 char!", Toast.LENGTH_LONG).show();
                             } else if (e instanceof FirebaseAuthInvalidCredentialsException) {
-                               // error_msg.setError("Invalid email address");
+                                Toast.makeText(Sign_up.this, "Invalid email address!", Toast.LENGTH_LONG).show();
                             } else if (e instanceof FirebaseAuthUserCollisionException) {
-                                //error_msg.setError("user already exist");
+                                Toast.makeText(Sign_up.this, "User already exist!", Toast.LENGTH_LONG).show();
                             } else {
+                                Toast.makeText(Sign_up.this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                                 Log.e("Sign_up", e.getLocalizedMessage());
                             }
                         }

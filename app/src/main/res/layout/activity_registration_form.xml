@@ -362,7 +362,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/pref_gender_spinner" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/floatingActionButton4"
+                android:id="@+id/add_profile_picture"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#FFFFFF"
