@@ -45,7 +45,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onFocusChange(View view, boolean b) {
                 if (username.getText().length() == 0) {
-                    username.setError("Please enter your username");
+                    username.setError("Please enter your email");
                 }
             }
         });

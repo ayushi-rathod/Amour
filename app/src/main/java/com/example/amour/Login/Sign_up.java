@@ -40,7 +40,7 @@ public class Sign_up extends AppCompatActivity {
         editText_fullname1 = findViewById(R.id.editText_fullname1);
         editText_email1 = findViewById(R.id.editText_email1);
         editText_password1 = findViewById(R.id.editText_password1);
-        editText_username1 = findViewById(R.id.editText_username1);
+       // editText_username1 = findViewById(R.id.editText_username1);
 
         signUpButton = findViewById(R.id.sign_up_btn);
         isError = false;
