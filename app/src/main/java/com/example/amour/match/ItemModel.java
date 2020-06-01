@@ -2,15 +2,15 @@ package com.example.amour.match;
 
 public class ItemModel {
     private int image;
-    private String nama, usia, kota;
+    private String name, totalLikes, kota;
 
     public ItemModel() {
     }
 
-    public ItemModel(int image, String nama, String usia, String kota) {
+    public ItemModel(int image, String name, String totalLikes, String kota) {
         this.image = image;
-        this.nama = nama;
-        this.usia = usia;
+        this.name = name;
+        this.totalLikes = totalLikes;
         this.kota = kota;
     }
 
@@ -18,12 +18,12 @@ public class ItemModel {
         return image;
     }
 
-    public String getNama() {
-        return nama;
+    public String getName() {
+        return name;
     }
 
-    public String getUsia() {
-        return usia;
+    public String getTotalLikes() {
+        return totalLikes;
     }
 
     public String getKota() {
