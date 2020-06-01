@@ -79,6 +79,7 @@ public class Sign_up extends AppCompatActivity {
             }
         });
 
+        /*
         editText_username1.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -101,7 +102,7 @@ public class Sign_up extends AppCompatActivity {
                     editText_username1.setError("Please enter your username");
                 }
             }
-        });
+        });*/
 
         editText_password1.addTextChangedListener(new TextWatcher() {
             @Override
