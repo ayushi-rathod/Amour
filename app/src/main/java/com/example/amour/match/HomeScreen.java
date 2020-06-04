@@ -5,13 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
+import com.example.amour.Login.Login;
 import com.example.amour.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class HomeScreen extends AppCompatActivity {
     private BottomNavigationView mMainNav;
@@ -21,11 +25,13 @@ public class HomeScreen extends AppCompatActivity {
     private ChatFragment chatFragment;
     private static final String TAG = "MainActivity";
     private CardStackAdapter adapter;
+    private FirebaseAuth mAuth;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_match_homescreen);
+        mAuth  = FirebaseAuth.getInstance();
         Log.d("mmm", "onCreate: ");
         mMainframe = (FrameLayout) findViewById(R.id.mainframe);
         mMainNav = (BottomNavigationView) findViewById(R.id.main_nav);
@@ -64,5 +70,26 @@ public class HomeScreen extends AppCompatActivity {
             }
         });
         mMainNav.setSelectedItemId(R.id.nav_amour);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.options_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+         super.onOptionsItemSelected(item);
+         if(item.getItemId() == R.id.logout1){
+             mAuth.signOut();
+             Intent loginIntent = new Intent(HomeScreen.this, Login.class);
+             startActivity(loginIntent);
+         }
+        if(item.getItemId() == R.id.Setting){
+
+        }
+        return true;
     }
 }

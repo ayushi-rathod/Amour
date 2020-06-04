@@ -33,21 +33,9 @@ private Button logout1;
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mAuth  = FirebaseAuth.getInstance();
-        logout1 = container.findViewById(R.id.logout);
         return inflater.inflate(R.layout.fragment_chat, container, false);
 
 
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
-        logout1 = view.findViewById(R.id.logout);
-        logout1.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                mAuth.signOut();
-                Intent loginIntent = new Intent(getContext(), Login.class);
-                startActivity(loginIntent);
-            }
-        });
+    
     }
 }
