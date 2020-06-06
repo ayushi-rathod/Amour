@@ -27,7 +27,6 @@
         android:textSize="14sp"
         android:textStyle="bold" />
 
-
     <ImageView
         android:id="@+id/message_sender_image_view"
         android:layout_width="150dp"
@@ -45,6 +44,7 @@
         android:layout_margin="5dp"
         android:scaleType="centerCrop"
         />
+
 
 
     <TextView
