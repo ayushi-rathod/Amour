@@ -46,6 +46,7 @@ public class RegistrationForm extends AppCompatActivity implements View.OnClickL
     String TAG = "Registration Form!!";
     FirebaseDatabase db;
     private FirebaseAuth mAuth;
+    String userName;
 
     String email, image_link;
     int pref_age_min_val, pref_age_max_val, pref_height_min_val, pref_height_max_val;
@@ -78,6 +79,9 @@ public class RegistrationForm extends AppCompatActivity implements View.OnClickL
         i_am_editText.setOnClickListener(this);
         i_appreciate_editText.setOnClickListener(this);
         i_like_editText.setOnClickListener(this);
+
+        Intent intent = getIntent();
+        userName = intent.getStringExtra("userName");
 
         age_range.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
             @Override
@@ -113,8 +117,6 @@ public class RegistrationForm extends AppCompatActivity implements View.OnClickL
                     saveData();
                     Intent intent = new Intent(RegistrationForm.this, HomeScreen.class);
                     startActivity(intent);
-                } else {
-                    Toast.makeText(RegistrationForm.this, "Please enter your details!", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -154,15 +156,17 @@ public class RegistrationForm extends AppCompatActivity implements View.OnClickL
     }
 
     private void saveData() {
-        image_link = System.currentTimeMillis()+"."+getExtension(imageuri);
-        User userDetails = new User(age_editText.getText().toString(), height_editText.getText().toString(),
+        image_link = System.currentTimeMillis() + "." + getExtension(imageuri);
+        User userDetails = new User(userName, age_editText.getText().toString(), height_editText.getText().toString(),
                 i_am_editText.getText().toString(), i_appreciate_editText.getText().toString(), i_like_editText.getText().toString(),
                 pref_age_min_val, pref_age_max_val, pref_height_min_val, pref_height_max_val, pref_gender_spinner.getSelectedItem().toString(),
-                image_link);
+                image_link, gender_spinner.getSelectedItem().toString());
+
         DatabaseReference myRef = db.getReference("userDetails");
-        myRef.child(mAuth.getCurrentUser().getUid()).setValue(userDetails);
+            myRef.child(mAuth.getCurrentUser().getUid()).setValue(userDetails);
         fileUploader();
     }
+
     private String getExtension(Uri uri) {
         ContentResolver cr = getContentResolver();
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
@@ -173,19 +177,19 @@ public class RegistrationForm extends AppCompatActivity implements View.OnClickL
         StorageReference ref = mStorageRef.child(image_link);
 
         ref.putFile(imageuri)
-            .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    // Get a URL to the uploaded content
-                }
-            })
-            .addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    // Handle unsuccessful uploads
-                    Toast.makeText(RegistrationForm.this, exception.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                }
-            });
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        // Get a URL to the uploaded content
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle unsuccessful uploads
+                        Toast.makeText(RegistrationForm.this, exception.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
     }
 
     private void fileChooser() {
@@ -198,7 +202,7 @@ public class RegistrationForm extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && resultCode == RESULT_OK && data!=null && data.getData() !=null ) {
+        if (requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData() != null) {
             imageuri = data.getData();
             profile_pic.setImageURI(imageuri);
         }

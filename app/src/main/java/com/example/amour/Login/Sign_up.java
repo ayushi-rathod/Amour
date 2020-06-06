@@ -145,6 +145,7 @@ public class Sign_up extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
                                         Intent intent = new Intent(Sign_up.this, verification.class);
+                                        intent.putExtra("userName", editText_fullname1.getText().toString());
                                         startActivity(intent);
                                     }
                                 }

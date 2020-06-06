@@ -51,7 +51,7 @@ public class HomeScreen extends AppCompatActivity {
                         break;
 
                     case R.id.nav_amour:
-                        selectedFragment = new HomeFragment();
+                        selectedFragment = new MainFragment();
                         Log.i("MMM", "onNavigationItemSelected: nav_amour");
                         break;
 

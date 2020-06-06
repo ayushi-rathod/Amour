@@ -35,7 +35,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 public class ChatFragment extends Fragment {
 private FirebaseAuth mAuth;
-private Button logout1;
     private View PrivateChatsView;
     private RecyclerView chatsList;
 

@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;;
 import com.example.amour.R;
-import com.example.amour.match.HomeScreen;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,11 +18,14 @@ public class verification extends AppCompatActivity {
 
     Button submitButton;
     Button refreshButton;
+    String userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verification);
+        Intent intent = getIntent();
+        userName = intent.getStringExtra("userName");
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         final FirebaseUser user = mAuth.getCurrentUser();
@@ -48,6 +50,7 @@ public class verification extends AppCompatActivity {
                 user.reload();
                 if (user.isEmailVerified()) {
                     Intent homeIntent = new Intent(verification.this, RegistrationForm.class);
+                    homeIntent.putExtra("userName", userName);
                     startActivity(homeIntent);
                 }
             }
