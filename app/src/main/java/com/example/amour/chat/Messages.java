@@ -3,14 +3,14 @@ package com.example.amour.chat;
 
 public class Messages
 {
-    private String from, message, type, to, messageID, time, date, i_am;
+    private String from, message, type, to, messageID, time, date, username;
 
     public Messages()
     {
 
     }
 
-    public Messages(String from, String message, String type, String to, String messageID, String time, String date, String i_am) {
+    public Messages(String from, String message, String type, String to, String messageID, String time, String date, String username) {
         this.from = from;
         this.message = message;
         this.type = type;
@@ -18,7 +18,7 @@ public class Messages
         this.messageID = messageID;
         this.time = time;
         this.date = date;
-        this.i_am = i_am;
+        this.username = username;
     }
 
     public String getFrom() {
@@ -77,11 +77,11 @@ public class Messages
         this.date = date;
     }
 
-    public String getI_am() {
-        return i_am;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String i_am) {
-        this.i_am = i_am;
+    public void setName(String username) {
+        this.username = username;
     }
 }

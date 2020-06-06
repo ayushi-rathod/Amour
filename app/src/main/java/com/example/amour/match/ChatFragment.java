@@ -102,7 +102,7 @@ private FirebaseAuth mAuth;
                                         Picasso.get().load(retImage[0]).into(holder.profileImage);
                                     }
 
-                                    final String retName = dataSnapshot.child("i_am").getValue().toString();
+                                    final String retName = dataSnapshot.child("username").getValue().toString();
                                    // final String retStatus = dataSnapshot.child("status").getValue().toString();
 
                                     holder.userName.setText(retName);

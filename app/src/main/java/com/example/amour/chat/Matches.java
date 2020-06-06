@@ -2,25 +2,25 @@ package com.example.amour.chat;
 
 
 public class Matches {
-    public String i_am, image_link;
+    public String username, image_link;
 
     public Matches()
     {
 
     }
 
-    public Matches(String i_am, String image_link) {
-        this.i_am = i_am;
+    public Matches(String username, String image_link) {
+        this.username = username;
 
         this.image_link = image_link;
     }
 
-    public String getI_am() {
-        return i_am;
+    public String getUsername() {
+        return username;
     }
 
-    public void setI_am(String i_am) {
-        this.i_am = i_am;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
 
