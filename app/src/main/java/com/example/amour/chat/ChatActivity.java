@@ -13,6 +13,7 @@ import android.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -69,6 +70,11 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
 
 
+
+
+
+
+
         mAuth = FirebaseAuth.getInstance();
         messageSenderID = mAuth.getCurrentUser().getUid();
         RootRef = FirebaseDatabase.getInstance().getReference();
@@ -95,7 +101,7 @@ public class ChatActivity extends AppCompatActivity {
         });
 
 
-        DisplayLastSeen();
+       // DisplayLastSeen();
     }
 
 

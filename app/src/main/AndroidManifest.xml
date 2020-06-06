@@ -16,6 +16,7 @@
         <activity android:name=".Login.Login" />
         <activity android:name=".Login.RegistrationForm" />
         <activity android:name=".MainActivity" />
+        <activity android:name=".chat.ChatActivity"/>
         <activity
             android:name=".SplashActivity"
             android:theme="@style/SplashTheme">

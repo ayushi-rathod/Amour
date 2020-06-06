@@ -23,6 +23,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+//import com.google.firebase.auth.FirebaseAuthCollisionException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 
@@ -133,7 +134,7 @@ public class Sign_up extends AppCompatActivity {
 
         signUpButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (editText_fullname1.getText().toString().isEmpty() || editText_username1.getText().toString().isEmpty() ||
+                if (editText_fullname1.getText().toString().isEmpty() ||
                         editText_email1.getText().toString().isEmpty() || editText_password1.getText().toString().isEmpty()) {
                         Toast.makeText(Sign_up.this, "Please provide a valid input!!", Toast.LENGTH_LONG).show();
                     return;

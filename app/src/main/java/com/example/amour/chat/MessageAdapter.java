@@ -83,15 +83,15 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         String fromUserID = messages.getFrom();
         String fromMessageType = messages.getType();
 
-        usersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(fromUserID);
+        usersRef = FirebaseDatabase.getInstance().getReference().child("userDetails").child(fromUserID);
 
         usersRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot)
             {
-                if (dataSnapshot.hasChild("image"))
+                if (dataSnapshot.hasChild("image_link"))
                 {
-                    String receiverImage = dataSnapshot.child("image").getValue().toString();
+                    String receiverImage = dataSnapshot.child("image_link").getValue().toString();
 
                     Picasso.get().load(receiverImage).placeholder(R.drawable.profile).into(messageViewHolder.receiverProfileImage);
                 }

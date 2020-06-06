@@ -57,7 +57,7 @@ private Button logout1;
         mAuth  = FirebaseAuth.getInstance();
         currentUserID = mAuth.getCurrentUser().getUid();
         ChatsRef = FirebaseDatabase.getInstance().getReference().child("Matches").child(currentUserID);
-        UsersRef = FirebaseDatabase.getInstance().getReference().child("Users");
+        UsersRef = FirebaseDatabase.getInstance().getReference().child("userDetails");
 
 
         chatsList = (RecyclerView) PrivateChatsView.findViewById(R.id.recyclerView);
@@ -89,7 +89,7 @@ private Button logout1;
                     protected void onBindViewHolder(@NonNull final ChatsViewHolder holder, int position, @NonNull Matches model)
                     {
                         final String usersIDs = getRef(position).getKey();
-                        final String[] retImage = {"default_image"};
+                        final String[] retImage = {"profile"};
 
                         UsersRef.child(usersIDs).addValueEventListener(new ValueEventListener() {
                             @Override
@@ -97,19 +97,19 @@ private Button logout1;
                             {
                                 if (dataSnapshot.exists())
                                 {
-                                    if (dataSnapshot.hasChild("image"))
+                                    if (dataSnapshot.hasChild("image_link"))
                                     {
-                                        retImage[0] = dataSnapshot.child("image").getValue().toString();
+                                        retImage[0] = dataSnapshot.child("image_link").getValue().toString();
                                         Picasso.get().load(retImage[0]).into(holder.profileImage);
                                     }
 
-                                    final String retName = dataSnapshot.child("name").getValue().toString();
-                                    final String retStatus = dataSnapshot.child("status").getValue().toString();
+                                    final String retName = dataSnapshot.child("i_am").getValue().toString();
+                                   // final String retStatus = dataSnapshot.child("status").getValue().toString();
 
                                     holder.userName.setText(retName);
 
 
-                                    if (dataSnapshot.child("userState").hasChild("state"))
+                                   /* if (dataSnapshot.child("userState").hasChild("state"))
                                     {
                                         String state = dataSnapshot.child("userState").child("state").getValue().toString();
                                         String date = dataSnapshot.child("userState").child("date").getValue().toString();
@@ -127,7 +127,7 @@ private Button logout1;
                                     else
                                     {
                                         holder.userStatus.setText("offline");
-                                    }
+                                    }*/
 
                                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                                         @Override

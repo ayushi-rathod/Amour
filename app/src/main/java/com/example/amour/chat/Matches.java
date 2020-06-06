@@ -2,33 +2,33 @@ package com.example.amour.chat;
 
 
 public class Matches {
-    public String name, status, image;
+    public String i_am, image_link;
 
     public Matches()
     {
 
     }
 
-    public Matches(String name, String image) {
-        this.name = name;
+    public Matches(String i_am, String image_link) {
+        this.i_am = i_am;
 
-        this.image = image;
+        this.image_link = image_link;
     }
 
-    public String getName() {
-        return name;
+    public String getI_am() {
+        return i_am;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setI_am(String i_am) {
+        this.i_am = i_am;
     }
 
 
-    public String getImage() {
-        return image;
+    public String getImage_link() {
+        return image_link;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImage_link(String image_link) {
+        this.image_link = image_link;
     }
 }
