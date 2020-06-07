@@ -101,12 +101,25 @@ public class User implements Serializable {
         this.height = height;
     }
 
-    public void setI_am_text(String i_am) {
+    public void setI_appreciate_text(String i_appreciate) {
+        this.i_appreciate = i_appreciate;
+    }
+
+    public void setI_am(String i_am) {
         this.i_am = i_am;
     }
 
-    public void setI_appreciate_text(String i_appreciate) {
+    public void setI_appreciate(String i_appreciate) {
         this.i_appreciate = i_appreciate;
+    }
+
+    public void setI_like(String i_like) {
+        this.i_like = i_like;
+    }
+
+
+    public void setPref_age_min_val(int pref_age_min_val) {
+        this.pref_age_min_val = pref_age_min_val;
     }
 
     public void setI_like_text(String i_like) {
@@ -123,10 +136,6 @@ public class User implements Serializable {
 
     public void setImage_link(String image_link) {
         this.image_link = image_link;
-    }
-
-    public void setpref_age_min_val(int pref_age_min_val) {
-        this.pref_age_min_val = pref_age_min_val;
     }
 
     public void setPref_age_max_val(int pref_age_max_val) {

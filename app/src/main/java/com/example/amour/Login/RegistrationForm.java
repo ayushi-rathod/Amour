@@ -86,11 +86,12 @@ public class RegistrationForm extends AppCompatActivity implements View.OnClickL
 
         userId = mAuth.getCurrentUser().getUid();
         final Intent intent = getIntent();
-        userName = intent.getStringExtra("userName");
 
         if (intent.hasExtra("action")) {
             isEdit = true;
             findUser();
+        } else {
+            userName = intent.getStringExtra("userName");
         }
 
         age_editText.setOnClickListener(this);
@@ -136,8 +137,8 @@ public class RegistrationForm extends AppCompatActivity implements View.OnClickL
                     saveData();
                     if (isEdit) {
                         onBackPressed();
-                        Fragment fragment = new ProfileFragment();
-                        getSupportFragmentManager().beginTransaction().replace(R.id.registration_form, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
+//                        Fragment fragment = new ProfileFragment();
+//                        getSupportFragmentManager().beginTransaction().replace(R.id.registration_form, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
 
                     } else {
                         Intent intent = new Intent(RegistrationForm.this, HomeScreen.class);
@@ -292,7 +293,7 @@ public class RegistrationForm extends AppCompatActivity implements View.OnClickL
 
     private void getUserPhotoAndName(DataSnapshot dataSnapshot) {
         User user = dataSnapshot.getValue(User.class);
-        //name.setText(user.getUsername());
+        userName = user.getUsername();
         age_editText.setText(user.getAge());
         height_editText.setText(user.getHeight());
         i_am_editText.setText(user.getI_am());
