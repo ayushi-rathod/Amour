@@ -19,6 +19,7 @@ public class verification extends AppCompatActivity {
     Button submitButton;
     Button refreshButton;
     String userName;
+    final LoadingDialog loadingDialog = new LoadingDialog(verification.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +48,13 @@ public class verification extends AppCompatActivity {
 
         refreshButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
                 user.reload();
                 if (user.isEmailVerified()) {
                     Intent homeIntent = new Intent(verification.this, RegistrationForm.class);
                     homeIntent.putExtra("userName", userName);
                     startActivity(homeIntent);
+                    loadingDialog.startLoadingDialog();
                 }
             }
         });

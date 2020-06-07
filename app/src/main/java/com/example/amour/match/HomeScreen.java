@@ -87,9 +87,6 @@ public class HomeScreen extends AppCompatActivity {
              Intent loginIntent = new Intent(HomeScreen.this, Login.class);
              startActivity(loginIntent);
          }
-        if(item.getItemId() == R.id.Setting){
-
-        }
         return true;
     }
 }

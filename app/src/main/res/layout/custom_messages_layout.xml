@@ -20,7 +20,7 @@
         android:layout_marginLeft="3dp"
         android:layout_marginTop="10dp"
         android:layout_toEndOf="@+id/message_profile_image"
-        android:background="#D6D6D6"
+        android:background="#75D6D6D6"
         android:padding="10dp"
         android:text="receiver messages here"
         android:textColor="@android:color/black"
@@ -46,20 +46,18 @@
         />
 
 
-
     <TextView
         android:id="@+id/sender_messsage_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="@+id/receiver_message_text"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="10dp"
-        android:layout_alignParentTop="@+id/receiver_message_text"
-        android:background="@color/colorAccent"
-        android:text="sender messages"
-        android:textSize="14sp"
+        android:background="#7A008081"
         android:padding="10dp"
-        android:textStyle="bold"
+        android:text="sender messages"
         android:textColor="@android:color/black"
-        />
+        android:textSize="14sp"
+        android:textStyle="bold" />
 
 </RelativeLayout>

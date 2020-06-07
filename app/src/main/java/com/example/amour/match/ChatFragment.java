@@ -1,6 +1,7 @@
 package com.example.amour.match;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,11 +15,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.amour.R;
 import com.example.amour.chat.ChatActivity;
 import com.example.amour.chat.Matches;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 
 import com.google.firebase.database.DataSnapshot;
@@ -26,6 +30,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -37,6 +43,7 @@ public class ChatFragment extends Fragment {
 private FirebaseAuth mAuth;
     private View PrivateChatsView;
     private RecyclerView chatsList;
+    StorageReference mStorageRef;
 
     private DatabaseReference ChatsRef, UsersRef;
   //  private FirebaseAuth mAuth;
@@ -55,6 +62,7 @@ private FirebaseAuth mAuth;
 
         mAuth  = FirebaseAuth.getInstance();
         currentUserID = mAuth.getCurrentUser().getUid();
+        mStorageRef = FirebaseStorage.getInstance().getReference("Images");
         ChatsRef = FirebaseDatabase.getInstance().getReference().child("Matches").child(currentUserID);
         UsersRef = FirebaseDatabase.getInstance().getReference().child("userDetails");
 
@@ -99,7 +107,22 @@ private FirebaseAuth mAuth;
                                     if (dataSnapshot.hasChild("image_link"))
                                     {
                                         retImage[0] = dataSnapshot.child("image_link").getValue().toString();
-                                        Picasso.get().load(retImage[0]).into(holder.profileImage);
+                                        StorageReference ref = mStorageRef.child(retImage[0]);
+
+                                        ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                            @Override
+                                            public void onSuccess(Uri uri) {
+                                                String image = uri.toString();
+                                                Glide.with(getContext()).load(image).into(holder.profileImage);
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception exception) {
+                                                // Handle any errors
+                                            }
+                                        });
+
+//                                        Picasso.get().load(retImage[0]).into(holder.profileImage);
                                     }
 
                                     final String retName = dataSnapshot.child("username").getValue().toString();

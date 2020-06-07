@@ -33,6 +33,7 @@ public class Sign_up extends AppCompatActivity {
     Button signUpButton;
     boolean isError;
 
+    final LoadingDialog loadingDialog = new LoadingDialog(Sign_up.this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,11 +135,13 @@ public class Sign_up extends AppCompatActivity {
 
         signUpButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
                 if (editText_fullname1.getText().toString().isEmpty() ||
                         editText_email1.getText().toString().isEmpty() || editText_password1.getText().toString().isEmpty()) {
                         Toast.makeText(Sign_up.this, "Please provide a valid input!!", Toast.LENGTH_LONG).show();
                     return;
                 } else {
+                    loadingDialog.startLoadingDialog();
                     mAuth.createUserWithEmailAndPassword(editText_email1.getText().toString().trim(), editText_password1.getText().toString().trim())
                             .addOnCompleteListener(Sign_up.this, new OnCompleteListener<AuthResult>() {
                                 @Override

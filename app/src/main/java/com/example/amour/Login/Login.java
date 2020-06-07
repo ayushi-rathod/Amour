@@ -39,6 +39,7 @@ public class Login extends AppCompatActivity {
         password = findViewById(R.id.editText_password);
         textView = findViewById(R.id.textView);
         loginButton = findViewById(R.id.login_btn);
+        final LoadingDialog loadingDialog = new LoadingDialog(Login.this);
 
         username.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -60,6 +61,7 @@ public class Login extends AppCompatActivity {
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                loadingDialog.startLoadingDialog();
                 if (username.getText().length() == 0 || password.getText().length() == 0) {
                     return;
                 } else {
