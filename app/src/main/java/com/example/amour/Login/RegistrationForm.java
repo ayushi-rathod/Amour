@@ -15,10 +15,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.example.amour.R;
 import com.example.amour.match.HomeScreen;
+import com.example.amour.match.ProfileFragment;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -54,6 +56,7 @@ public class RegistrationForm extends AppCompatActivity implements View.OnClickL
     String userName;
     boolean isEdit = false;
     boolean isImageChanged = false;
+    LoadingDialog loadingDialog;
 
 
     String userId, image_link;
@@ -79,13 +82,13 @@ public class RegistrationForm extends AppCompatActivity implements View.OnClickL
         mStorageRef = FirebaseStorage.getInstance().getReference("Images");
         db = FirebaseDatabase.getInstance();
         mAuth = FirebaseAuth.getInstance();
+        loadingDialog = new LoadingDialog(RegistrationForm.this);
 
         userId = mAuth.getCurrentUser().getUid();
         final Intent intent = getIntent();
         userName = intent.getStringExtra("userName");
 
-        Log.d(TAG, "onCreate: ========" + intent.getStringExtra("action"));
-        if (intent.getStringExtra("action").equals("editProfile")) {
+        if (intent.hasExtra("action")) {
             isEdit = true;
             findUser();
         }
@@ -129,9 +132,12 @@ public class RegistrationForm extends AppCompatActivity implements View.OnClickL
             @Override
             public void onClick(View view) {
                 if (validateInput()) {
+                    loadingDialog.startLoadingDialog();
                     saveData();
                     if (isEdit) {
                         onBackPressed();
+                        Fragment fragment = new ProfileFragment();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.registration_form, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
 
                     } else {
                         Intent intent = new Intent(RegistrationForm.this, HomeScreen.class);

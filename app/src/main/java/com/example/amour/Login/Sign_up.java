@@ -165,6 +165,7 @@ public class Sign_up extends AppCompatActivity {
                                 Toast.makeText(Sign_up.this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                                 Log.e("Sign_up", e.getLocalizedMessage());
                             }
+                            loadingDialog.dismissDialog();
                         }
                     });
                 }
