@@ -67,9 +67,9 @@ public class Sign_up extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 //error_msg.setText("");
-                //if (!email.getText().toString().matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")) {
-                  //  email.setError("Please enter university email");
-                //}
+                /*if (!editText_email1.getText().toString().matches("[a-zA-Z0-9._-]+@scu.edu")) {
+                    editText_email1.setError("Please enter university email");
+                }*/
             }
 
             @Override
