@@ -28,7 +28,7 @@ public class MainFragment extends Fragment {
     private DatabaseReference userDB, matchDB;
     private FirebaseAuth mAuth;
     public String currentUID, preferredGender;
-    List<Cards> rowItems;
+    List<User> rowItems;
     private PhotoAdapter arrayAdapter;
 
     @Override
@@ -45,7 +45,7 @@ public class MainFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         checkUserSex();
-        rowItems = new ArrayList<Cards>();
+        rowItems = new ArrayList<User>();
         arrayAdapter = new PhotoAdapter(getContext(), R.layout.item, rowItems);
         updateSwipeCard();
     }
@@ -89,21 +89,11 @@ public class MainFragment extends Fragment {
         potentialMatch.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if (dataSnapshot.exists() && dataSnapshot.getValue(User.class).getPref_gender().toLowerCase().equals(preferredGender) &&
+                if (dataSnapshot.exists() && dataSnapshot.getValue(User.class).getSex().toLowerCase().equals(preferredGender) &&
                         !dataSnapshot.child("connections").child("dislikeme").hasChild(currentUID) && !dataSnapshot.child("connections").child("likeme").hasChild(currentUID) && !dataSnapshot.getKey().equals(currentUID)) {
                     User curUser = dataSnapshot.getValue(User.class);
 
-                    //initialize card view
-                    //check profile image first
-                    String profileImageUrl = "default";
-                    if (dataSnapshot.child("image_link").getValue() != null) {
-                        profileImageUrl = dataSnapshot.child("image_link").getValue().toString();
-                    }
-                    String age = curUser.getAge();
-                    String username = curUser.getUsername();
-
-                    Cards item = new Cards(dataSnapshot.getKey(), username, age, profileImageUrl);
-                    rowItems.add(item);
+                    rowItems.add(curUser);
                     arrayAdapter.notifyDataSetChanged();
                 }
             }
@@ -139,14 +129,14 @@ public class MainFragment extends Fragment {
 
             @Override
             public void onLeftCardExit(Object dataObject) {
-                Cards obj = (Cards) dataObject;
+                User obj = (User) dataObject;
                 String userId = obj.getUserId();
                 userDB.child(userId).child("connections").child("dislikeme").child(currentUID).setValue(true);
             }
 
             @Override
             public void onRightCardExit(Object dataObject) {
-                Cards obj = (Cards) dataObject;
+                User obj = (User) dataObject;
                 String userId = obj.getUserId();
                 userDB.child(userId).child("connections").child("likeme").child(currentUID).setValue(true);
                 //check matches

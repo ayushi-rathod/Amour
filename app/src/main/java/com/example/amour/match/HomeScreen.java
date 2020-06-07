@@ -3,7 +3,6 @@ package com.example.amour.match;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,18 +19,18 @@ import com.google.firebase.auth.FirebaseAuth;
 public class HomeScreen extends AppCompatActivity {
     private BottomNavigationView mMainNav;
     private FrameLayout mMainframe;
-   private HomeFragment homeFragment;
-    private  ProfileFragment profileFragment;
+    private HomeFragment homeFragment;
+    private ProfileFragment profileFragment;
     private ChatFragment chatFragment;
     private static final String TAG = "MainActivity";
     private CardStackAdapter adapter;
     private FirebaseAuth mAuth;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_match_homescreen);
-        mAuth  = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
         Log.d("mmm", "onCreate: ");
         mMainframe = (FrameLayout) findViewById(R.id.mainframe);
         mMainNav = (BottomNavigationView) findViewById(R.id.main_nav);
@@ -75,18 +74,18 @@ public class HomeScreen extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.options_menu,menu);
+        getMenuInflater().inflate(R.menu.options_menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-         super.onOptionsItemSelected(item);
-         if(item.getItemId() == R.id.logout1){
-             mAuth.signOut();
-             Intent loginIntent = new Intent(HomeScreen.this, Login.class);
-             startActivity(loginIntent);
-         }
+        super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.logout1) {
+            mAuth.signOut();
+            Intent loginIntent = new Intent(HomeScreen.this, Login.class);
+            startActivity(loginIntent);
+        }
         return true;
     }
 }

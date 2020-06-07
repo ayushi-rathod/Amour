@@ -15,9 +15,11 @@
         <activity android:name=".Login.Sign_up" />
         <activity android:name=".Login.Login" />
         <activity android:name=".Login.RegistrationForm" />
-        <activity android:name=".Login.ResetPasswordActivity"/>
-        <activity android:name=".chat.ChatActivity"
-            android:parentActivityName=".match.CheckInfo"/>
+        <activity android:name=".Login.ResetPasswordActivity" />
+        <activity android:name=".match.DetailedProfile" />
+        <activity
+            android:name=".chat.ChatActivity"
+            android:parentActivityName=".match.CheckInfo" />
         <activity android:name=".MainActivity" />
 
         <activity

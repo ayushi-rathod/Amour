@@ -20,8 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-
-            <EditText
+            <TextView
                 android:id="@+id/i_appreciate_editText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -54,7 +53,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/i_like_editText" />
 
-            <EditText
+            <TextView
                 android:id="@+id/i_like_editText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -74,12 +73,15 @@
                 app:layout_constraintStart_toEndOf="@+id/textView10"
                 app:layout_constraintTop_toBottomOf="@+id/i_am_editText" />
 
-            <TextView
+            <Spinner
                 android:id="@+id/degree_spinner"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="16dp"
+                android:clickable="false"
+                android:entries="@array/edu_level"
+                android:spinnerMode="dropdown"
                 app:layout_constraintBottom_toBottomOf="@+id/textView8"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView8"
@@ -153,7 +155,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/edit_pic_btn" />
 
-            <EditText
+            <TextView
                 android:id="@+id/age_editText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -169,7 +171,7 @@
                 app:layout_constraintStart_toStartOf="@+id/gender_spinner"
                 app:layout_constraintTop_toBottomOf="@+id/edit_pic_btn" />
 
-            <EditText
+            <TextView
                 android:id="@+id/height_editText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -184,11 +186,14 @@
                 app:layout_constraintStart_toStartOf="@+id/gender_spinner"
                 app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
-            <TextView
+            <Spinner
                 android:id="@+id/gender_spinner"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginEnd="16dp"
+                android:clickable="false"
+                android:entries="@array/gender"
+                android:spinnerMode="dropdown"
                 app:layout_constraintBottom_toBottomOf="@+id/textView7"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/degree_spinner"
@@ -220,7 +225,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
+            <TextView
                 android:id="@+id/i_am_editText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
