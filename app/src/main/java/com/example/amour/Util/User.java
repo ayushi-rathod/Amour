@@ -5,8 +5,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.io.Serializable;
 
 public class User implements Serializable {
-    String email, age, height, i_am, i_appreciate, i_like, username, pref_gender, image_link, sex;
-    int pre_age_min_val, pref_age_max_val, pref_height_min_val, pref_height_max_val;
+    String email, age, height, i_am, i_appreciate, i_like, username, pref_gender, image_link, sex, degree;
+    int pref_age_min_val, pref_age_max_val, pref_height_min_val, pref_height_max_val;
 
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
@@ -14,22 +14,23 @@ public class User implements Serializable {
     }
 
     public User(String username, String age, String height, String i_am, String i_appreciate,
-                String i_like, int pre_age_min_val, int pref_age_max_val,
+                String i_like, int pref_age_min_val, int pref_age_max_val,
                 int pref_height_min_val, int pref_height_max_val,
-                String pref_gender, String imageLink, String sex) {
+                String pref_gender, String imageLink, String sex, String degree) {
         this.username = username;
         this.age = age;
         this.height = height;
         this.i_am = i_am;
         this.i_appreciate = i_appreciate;
         this.i_like = i_like;
-        this.pre_age_min_val = pre_age_min_val;
+        this.pref_age_min_val = pref_age_min_val;
         this.pref_age_max_val = pref_age_max_val;
         this.pref_gender = pref_gender;
         this.pref_height_min_val = pref_height_min_val;
         this.pref_height_max_val = pref_height_max_val;
         this.image_link = imageLink;
         this.sex = sex;
+        this.degree = degree;
     }
 
     public String getAge() {
@@ -52,8 +53,8 @@ public class User implements Serializable {
         return i_like;
     }
 
-    public Number getPre_age_min_val() {
-        return pre_age_min_val;
+    public Number getpref_age_min_val() {
+        return pref_age_min_val;
     }
 
     public Number getPref_age_max_val() {
@@ -120,8 +121,8 @@ public class User implements Serializable {
         this.image_link = image_link;
     }
 
-    public void setPre_age_min_val(int pre_age_min_val) {
-        this.pre_age_min_val = pre_age_min_val;
+    public void setpref_age_min_val(int pref_age_min_val) {
+        this.pref_age_min_val = pref_age_min_val;
     }
 
     public void setPref_age_max_val(int pref_age_max_val) {
@@ -134,5 +135,13 @@ public class User implements Serializable {
 
     public void setPref_height_max_val(int pref_height_max_val) {
         this.pref_height_max_val = pref_height_max_val;
+    }
+
+    public String getDegree() {
+        return degree;
+    }
+
+    public void setDegree(String degree) {
+        this.degree = degree;
     }
 }

@@ -2,8 +2,11 @@ package com.example.amour.Login;
 
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -14,13 +17,21 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.example.amour.R;
 import com.example.amour.match.HomeScreen;
+import com.example.amour.match.MainFragment;
+import com.example.amour.match.ProfileFragment;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -47,8 +58,13 @@ public class RegistrationForm extends AppCompatActivity implements View.OnClickL
     FirebaseDatabase db;
     private FirebaseAuth mAuth;
     String userName;
+    Bitmap bitmap;
+    final long ONE_MEGABYTE = 1024 * 1024;
+    boolean isEdit = false;
+    boolean isImageChanged = false;
 
-    String email, image_link;
+
+    String userId, image_link;
     int pref_age_min_val, pref_age_max_val, pref_height_min_val, pref_height_max_val;
 
     @Override
@@ -72,16 +88,21 @@ public class RegistrationForm extends AppCompatActivity implements View.OnClickL
         db = FirebaseDatabase.getInstance();
         mAuth = FirebaseAuth.getInstance();
 
-        email = mAuth.getCurrentUser().getEmail();
+        userId = mAuth.getCurrentUser().getUid();
+        final Intent intent = getIntent();
+        userName = intent.getStringExtra("userName");
+
+        Log.d(TAG, "onCreate: ========" + intent.getStringExtra("action"));
+        if (intent.getStringExtra("action").equals("editProfile")) {
+            isEdit = true;
+            findUser();
+        }
 
         age_editText.setOnClickListener(this);
         height_editText.setOnClickListener(this);
         i_am_editText.setOnClickListener(this);
         i_appreciate_editText.setOnClickListener(this);
         i_like_editText.setOnClickListener(this);
-
-        Intent intent = getIntent();
-        userName = intent.getStringExtra("userName");
 
         age_range.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
             @Override
@@ -103,9 +124,11 @@ public class RegistrationForm extends AppCompatActivity implements View.OnClickL
         add_profile_pic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                isImageChanged = true;
                 fileChooser();
             }
         });
+
 
         save_btn.setOnClickListener(new View.OnClickListener() {
             // Write a message to the database
@@ -115,8 +138,14 @@ public class RegistrationForm extends AppCompatActivity implements View.OnClickL
             public void onClick(View view) {
                 if (validateInput()) {
                     saveData();
-                    Intent intent = new Intent(RegistrationForm.this, HomeScreen.class);
-                    startActivity(intent);
+                    if (isEdit) {
+                        Intent intent = new Intent(RegistrationForm.this, HomeScreen.class);
+                        startActivity(intent);
+
+                    } else {
+                        Intent intent = new Intent(RegistrationForm.this, HomeScreen.class);
+                        startActivity(intent);
+                    }
                 }
             }
         });
@@ -148,7 +177,7 @@ public class RegistrationForm extends AppCompatActivity implements View.OnClickL
             return false;
         }
 
-        if (imageuri == null) {
+        if (imageuri == null && !isEdit) {
             Toast.makeText(RegistrationForm.this, "Please select an image for profile picture.!", Toast.LENGTH_LONG).show();
             return false;
         }
@@ -156,15 +185,20 @@ public class RegistrationForm extends AppCompatActivity implements View.OnClickL
     }
 
     private void saveData() {
-        image_link = System.currentTimeMillis() + "." + getExtension(imageuri);
+        if (isImageChanged) {
+            image_link = System.currentTimeMillis() + "." + getExtension(imageuri);
+            fileUploader();
+        }
         User userDetails = new User(userName, age_editText.getText().toString(), height_editText.getText().toString(),
                 i_am_editText.getText().toString(), i_appreciate_editText.getText().toString(), i_like_editText.getText().toString(),
                 pref_age_min_val, pref_age_max_val, pref_height_min_val, pref_height_max_val, pref_gender_spinner.getSelectedItem().toString(),
-                image_link, gender_spinner.getSelectedItem().toString());
+                image_link, gender_spinner.getSelectedItem().toString(), degree_spinner.getSelectedItem().toString());
 
         DatabaseReference myRef = db.getReference("userDetails");
             myRef.child(mAuth.getCurrentUser().getUid()).setValue(userDetails);
-        fileUploader();
+            if (!isEdit) {
+                fileUploader();
+            }
     }
 
     private String getExtension(Uri uri) {
@@ -227,5 +261,80 @@ public class RegistrationForm extends AppCompatActivity implements View.OnClickL
                 }
                 break;
         }
+    }
+
+    private void findUser() {
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference usersDB = FirebaseDatabase.getInstance().getReference("userDetails");
+        usersDB.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                if (dataSnapshot.getKey().equals(userId)) {
+                    getUserPhotoAndName(dataSnapshot);
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                getUserPhotoAndName(dataSnapshot);
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+    }
+
+    private void getUserPhotoAndName(DataSnapshot dataSnapshot) {
+        User user = dataSnapshot.getValue(User.class);
+        //name.setText(user.getUsername());
+        age_editText.setText(user.getAge());
+        height_editText.setText(user.getHeight());
+        i_am_editText.setText(user.getI_am());
+        pref_gender_spinner.setSelection(getIndex(pref_gender_spinner, user.getPref_gender()));
+        gender_spinner.setSelection(getIndex(gender_spinner, user.getSex()));
+        degree_spinner.setSelection(getIndex(degree_spinner, user.getDegree()));
+        i_appreciate_editText.setText(user.getI_appreciate());
+        i_like_editText.setText(user.getI_like());
+        age_range.setSelectedMinValue(user.getpref_age_min_val());
+        age_range.setSelectedMaxValue(user.getPref_age_max_val());
+        pref_age_min_val = (Integer) user.getpref_age_min_val();
+        pref_age_max_val = (Integer) user.getPref_age_max_val();
+        height_range.setSelectedMinValue(user.getPref_height_min_val());
+        height_range.setSelectedMaxValue(user.getPref_height_max_val());
+        pref_height_min_val = (Integer) user.getPref_height_min_val();
+        pref_height_max_val = (Integer) user.getPref_height_max_val();
+        image_link = user.getImage_link();
+        StorageReference ref = mStorageRef.child(user.getImage_link());
+        ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                String image = uri.toString();
+                Glide.with(getApplicationContext()).load(image).into(profile_pic);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
+
+    }
+
+    private int getIndex(Spinner spinner, String myString) {
+        for (int i = 0; i < spinner.getCount(); i++) {
+            if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(myString)) {
+                return i;
+            }
+        }
+        return 0;
     }
 }

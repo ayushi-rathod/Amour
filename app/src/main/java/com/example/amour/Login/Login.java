@@ -27,7 +27,7 @@ public class Login extends AppCompatActivity {
     private FirebaseAuth mAuth;
     EditText username, password;
     Button loginButton;
-    TextView textView;
+    TextView signupLink, forgotPasswordLink;
 
 
     @Override
@@ -37,7 +37,8 @@ public class Login extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         username = findViewById(R.id.editText_username);
         password = findViewById(R.id.editText_password);
-        textView = findViewById(R.id.textView);
+        signupLink = findViewById(R.id.signup_link);
+        forgotPasswordLink = findViewById(R.id.forgot_password_link);
         loginButton = findViewById(R.id.login_btn);
         final LoadingDialog loadingDialog = new LoadingDialog(Login.this);
 
@@ -56,6 +57,13 @@ public class Login extends AppCompatActivity {
                 if (password.getText().length() == 0) {
                     password.setError("Please enter your password");
                 }
+            }
+        });
+
+        forgotPasswordLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Login.this, ResetPasswordActivity.class));
             }
         });
 
@@ -98,7 +106,7 @@ public class Login extends AppCompatActivity {
             }
         });
 
-        textView.setOnClickListener(new View.OnClickListener() {
+        signupLink.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(Login.this, Sign_up.class);
                 startActivity(intent);
