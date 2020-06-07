@@ -151,7 +151,8 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onSuccess(Uri uri) {
                 String image = uri.toString();
-                Glide.with(getContext()).load(image).into(profile_pic);
+                if (getActivity() != null)
+                    Glide.with(getActivity()).load(image).into(profile_pic);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

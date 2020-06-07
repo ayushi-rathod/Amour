@@ -40,14 +40,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * A simple {@link Fragment} subclass.
  */
 public class ChatFragment extends Fragment {
-private FirebaseAuth mAuth;
+    private FirebaseAuth mAuth;
     private View PrivateChatsView;
     private RecyclerView chatsList;
     StorageReference mStorageRef;
 
     private DatabaseReference ChatsRef, UsersRef;
-  //  private FirebaseAuth mAuth;
-    private String currentUserID="";
+    //  private FirebaseAuth mAuth;
+    private String currentUserID = "";
 
     public ChatFragment() {
         // Required empty public constructor
@@ -60,7 +60,7 @@ private FirebaseAuth mAuth;
         // Inflate the layout for this fragment
         PrivateChatsView = inflater.inflate(R.layout.fragment_chat, container, false);
 
-        mAuth  = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
         currentUserID = mAuth.getCurrentUser().getUid();
         mStorageRef = FirebaseStorage.getInstance().getReference("Images");
         ChatsRef = FirebaseDatabase.getInstance().getReference().child("Matches").child(currentUserID);
@@ -68,19 +68,18 @@ private FirebaseAuth mAuth;
 
 
         chatsList = (RecyclerView) PrivateChatsView.findViewById(R.id.recyclerView);
-        chatsList.setLayoutManager(new LinearLayoutManager(getContext()));
+        chatsList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-      //  return inflater.inflate(R.layout.fragment_chat, container, false);
+        //  return inflater.inflate(R.layout.fragment_chat, container, false);
 
-        return  PrivateChatsView;
+        return PrivateChatsView;
 
-    
+
     }
 
 
     @Override
-    public void onStart()
-    {
+    public void onStart() {
         super.onStart();
 
 
@@ -93,19 +92,15 @@ private FirebaseAuth mAuth;
         FirebaseRecyclerAdapter<Matches, ChatsViewHolder> adapter =
                 new FirebaseRecyclerAdapter<Matches, ChatsViewHolder>(options) {
                     @Override
-                    protected void onBindViewHolder(@NonNull final ChatsViewHolder holder, int position, @NonNull Matches model)
-                    {
+                    protected void onBindViewHolder(@NonNull final ChatsViewHolder holder, int position, @NonNull Matches model) {
                         final String usersIDs = getRef(position).getKey();
                         final String[] retImage = {"profile"};
 
                         UsersRef.child(usersIDs).addValueEventListener(new ValueEventListener() {
                             @Override
-                            public void onDataChange(DataSnapshot dataSnapshot)
-                            {
-                                if (dataSnapshot.exists())
-                                {
-                                    if (dataSnapshot.hasChild("image_link"))
-                                    {
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.exists()) {
+                                    if (dataSnapshot.hasChild("image_link")) {
                                         retImage[0] = dataSnapshot.child("image_link").getValue().toString();
                                         StorageReference ref = mStorageRef.child(retImage[0]);
 
@@ -113,7 +108,8 @@ private FirebaseAuth mAuth;
                                             @Override
                                             public void onSuccess(Uri uri) {
                                                 String image = uri.toString();
-                                                Glide.with(getContext()).load(image).into(holder.profileImage);
+                                                if (getActivity() != null)
+                                                    Glide.with(getActivity()).load(image).into(holder.profileImage);
                                             }
                                         }).addOnFailureListener(new OnFailureListener() {
                                             @Override
@@ -126,7 +122,7 @@ private FirebaseAuth mAuth;
                                     }
 
                                     final String retName = dataSnapshot.child("username").getValue().toString();
-                                   // final String retStatus = dataSnapshot.child("status").getValue().toString();
+                                    // final String retStatus = dataSnapshot.child("status").getValue().toString();
 
                                     holder.userName.setText(retName);
 
@@ -153,9 +149,8 @@ private FirebaseAuth mAuth;
 
                                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                                         @Override
-                                        public void onClick(View view)
-                                        {
-                                            Intent chatIntent = new Intent(getContext(), ChatActivity.class);
+                                        public void onClick(View view) {
+                                            Intent chatIntent = new Intent(getActivity(), ChatActivity.class);
                                             chatIntent.putExtra("visit_user_id", usersIDs);
                                             chatIntent.putExtra("visit_user_name", retName);
                                             chatIntent.putExtra("visit_image", retImage[0]);
@@ -174,8 +169,7 @@ private FirebaseAuth mAuth;
 
                     @NonNull
                     @Override
-                    public ChatsViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i)
-                    {
+                    public ChatsViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
                         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.user_chat_list_layout, viewGroup, false);
                         return new ChatsViewHolder(view);
                     }
@@ -186,16 +180,12 @@ private FirebaseAuth mAuth;
     }
 
 
-
-
-    public static class  ChatsViewHolder extends RecyclerView.ViewHolder
-    {
+    public static class ChatsViewHolder extends RecyclerView.ViewHolder {
         CircleImageView profileImage;
         TextView userStatus, userName;
 
 
-        public ChatsViewHolder(@NonNull View itemView)
-        {
+        public ChatsViewHolder(@NonNull View itemView) {
             super(itemView);
 
             profileImage = itemView.findViewById(R.id.users_profile_image);
