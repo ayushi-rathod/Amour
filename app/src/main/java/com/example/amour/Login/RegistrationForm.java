@@ -91,7 +91,11 @@ public class RegistrationForm extends AppCompatActivity implements View.OnClickL
             isEdit = true;
             findUser();
         } else {
-            userName = intent.getStringExtra("userName");
+            if (intent.hasExtra("userName")) {
+                userName = intent.getStringExtra("userName");
+            } else {
+                userName = "Alex";
+            }
         }
 
         age_editText.setOnClickListener(this);

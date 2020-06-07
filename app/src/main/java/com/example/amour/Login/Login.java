@@ -87,12 +87,14 @@ public class Login extends AppCompatActivity {
                                     startActivity(homeIntent);
                                 }
                             } else {
+                                loadingDialog.dismissDialog();
                                 Toast.makeText(Login.this, "Login Failed", Toast.LENGTH_LONG).show();
                             }
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
+                            loadingDialog.dismissDialog();
                             if (e instanceof FirebaseAuthWeakPasswordException) {
                                 Toast.makeText(Login.this, "Invalid Password!", Toast.LENGTH_LONG).show();
                             } else if (e instanceof FirebaseAuthInvalidCredentialsException) {
