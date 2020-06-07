@@ -21,7 +21,7 @@
         android:layout_alignParentStart="false"
         android:layout_alignParentLeft="false"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="false"
+        android:layout_alignParentEnd="true"
         android:layout_marginStart="20dp"
         android:layout_marginRight="10dp"
         android:layout_toEndOf="@+id/custom_profile_image"
@@ -29,14 +29,5 @@
         android:textColor="@android:color/white"
         android:textSize="22sp"
         android:textStyle="bold" />
-
-    <ImageButton
-        android:id="@+id/imageButton2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:background="@color/colorAccent"
-        app:srcCompat="@drawable/unmatch1" />
-
 
 </RelativeLayout>
