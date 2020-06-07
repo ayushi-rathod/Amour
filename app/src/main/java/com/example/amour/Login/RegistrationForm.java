@@ -2,7 +2,6 @@ package com.example.amour.Login;
 
 import android.content.ContentResolver;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,7 +23,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -54,8 +52,6 @@ public class RegistrationForm extends AppCompatActivity implements View.OnClickL
     FirebaseDatabase db;
     private FirebaseAuth mAuth;
     String userName;
-    Bitmap bitmap;
-    final long ONE_MEGABYTE = 1024 * 1024;
     boolean isEdit = false;
     boolean isImageChanged = false;
 
@@ -135,8 +131,7 @@ public class RegistrationForm extends AppCompatActivity implements View.OnClickL
                 if (validateInput()) {
                     saveData();
                     if (isEdit) {
-                        Intent intent = new Intent(RegistrationForm.this, HomeScreen.class);
-                        startActivity(intent);
+                        onBackPressed();
 
                     } else {
                         Intent intent = new Intent(RegistrationForm.this, HomeScreen.class);
@@ -191,10 +186,11 @@ public class RegistrationForm extends AppCompatActivity implements View.OnClickL
                 image_link, gender_spinner.getSelectedItem().toString(), degree_spinner.getSelectedItem().toString());
 
         DatabaseReference myRef = db.getReference("userDetails");
-            myRef.child(mAuth.getCurrentUser().getUid()).setValue(userDetails);
-            if (!isEdit) {
-                fileUploader();
-            }
+        myRef.child(mAuth.getCurrentUser().getUid()).setValue(userDetails);
+        if (!isEdit) {
+            fileUploader();
+        }
+        Toast.makeText(RegistrationForm.this, "Data Saved Successfully", Toast.LENGTH_LONG).show();
     }
 
     private String getExtension(Uri uri) {
@@ -260,7 +256,6 @@ public class RegistrationForm extends AppCompatActivity implements View.OnClickL
     }
 
     private void findUser() {
-        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference usersDB = FirebaseDatabase.getInstance().getReference("userDetails");
         usersDB.addChildEventListener(new ChildEventListener() {
             @Override
@@ -313,7 +308,8 @@ public class RegistrationForm extends AppCompatActivity implements View.OnClickL
         ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                String image = uri.toString();Glide.with(getApplicationContext()).load(image).into(profile_pic);
+                String image = uri.toString();
+                Glide.with(getApplicationContext()).load(image).into(profile_pic);
 
             }
         }).addOnFailureListener(new OnFailureListener() {
