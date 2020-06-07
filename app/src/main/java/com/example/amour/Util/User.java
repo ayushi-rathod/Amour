@@ -9,12 +9,11 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(String username,  String age, String height, String i_am, String i_appreciate,
+    public User(String username, String age, String height, String i_am, String i_appreciate,
                 String i_like, int pref_age_min_val, int pref_age_max_val,
                 int pref_height_min_val, int pref_height_max_val,
                 String pref_gender, String imageLink, String sex, String degree) {
         this.username = username;
-        this.userId = userId;
         this.age = age;
         this.height = height;
         this.i_am = i_am;

@@ -1,15 +1,20 @@
 package com.example.amour.match;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
 import com.example.amour.R;
 import com.example.amour.Util.PhotoAdapter;
 import com.example.amour.Util.User;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -30,6 +35,8 @@ public class MainFragment extends Fragment {
     public String currentUID, preferredGender;
     List<User> rowItems;
     private PhotoAdapter arrayAdapter;
+    public RelativeLayout parentView;
+    FloatingActionButton likeBtn, DislikeBtn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,17 +45,41 @@ public class MainFragment extends Fragment {
         matchDB = FirebaseDatabase.getInstance().getReference("Matches");
         mAuth = FirebaseAuth.getInstance();
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main, container, false);
+        return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        parentView = (RelativeLayout) view.findViewById(R.id.activity_frame);
+        LayoutInflater inflate =
+                (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View containerView = inflate.inflate(R.layout.fragment_main, null);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        containerView.setLayoutParams(layoutParams);
+
+        parentView.addView(containerView);
+        likeBtn = view.findViewById(R.id.floatingButtonLit);
+        likeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                likeBtnClicked(view);
+            }
+        });
+        DislikeBtn = view.findViewById(R.id.floatingButtonNope);
+        DislikeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dislikeBtnClicked(view);
+            }
+        });
         checkUserSex();
         rowItems = new ArrayList<User>();
         arrayAdapter = new PhotoAdapter(getContext(), R.layout.item, rowItems);
         updateSwipeCard();
     }
+
 
     public void checkUserSex() {
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -92,7 +123,7 @@ public class MainFragment extends Fragment {
                 if (dataSnapshot.exists() && dataSnapshot.getValue(User.class).getSex().toLowerCase().equals(preferredGender) &&
                         !dataSnapshot.child("connections").child("dislikeme").hasChild(currentUID) && !dataSnapshot.child("connections").child("likeme").hasChild(currentUID) && !dataSnapshot.getKey().equals(currentUID)) {
                     User curUser = dataSnapshot.getValue(User.class);
-
+                    curUser.setUserId(dataSnapshot.getKey());
                     rowItems.add(curUser);
                     arrayAdapter.notifyDataSetChanged();
                 }
@@ -175,5 +206,39 @@ public class MainFragment extends Fragment {
         });
     }
 
+    public void dislikeBtnClicked(View v) {
+        if (rowItems.size() != 0) {
+            User card_item = rowItems.get(0);
 
+            String userId = card_item.getUserId();
+            userDB.child(userId).child("connections").child("dislikeme").child(currentUID).setValue(true);
+
+            rowItems.remove(0);
+            arrayAdapter.notifyDataSetChanged();
+
+            getFragmentManager().beginTransaction().detach(this).attach(this).commit();
+
+            Toast.makeText(getActivity(), "NOPE!", Toast.LENGTH_LONG).show();
+            getPotentialMatch();
+        }
+    }
+
+    public void likeBtnClicked(View v) {
+        if (rowItems.size() != 0) {
+            User card_item = rowItems.get(0);
+
+            String userId = card_item.getUserId();
+            userDB.child(userId).child("connections").child("likeme").child(currentUID).setValue(true);
+
+            //check matches
+            isConnectionMatch(userId);
+
+            rowItems.remove(0);
+            arrayAdapter.notifyDataSetChanged();
+
+            getFragmentManager().beginTransaction().detach(this).attach(this).commit();
+
+        Toast.makeText(getActivity(), "LIT!", Toast.LENGTH_LONG).show();
+    }
+}
 }

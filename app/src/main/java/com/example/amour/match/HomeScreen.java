@@ -19,11 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class HomeScreen extends AppCompatActivity {
     private BottomNavigationView mMainNav;
     private FrameLayout mMainframe;
-    private HomeFragment homeFragment;
-    private ProfileFragment profileFragment;
-    private ChatFragment chatFragment;
     private static final String TAG = "MainActivity";
-    private CardStackAdapter adapter;
     private FirebaseAuth mAuth;
 
     @Override
@@ -35,7 +31,7 @@ public class HomeScreen extends AppCompatActivity {
         mMainframe = (FrameLayout) findViewById(R.id.mainframe);
         mMainNav = (BottomNavigationView) findViewById(R.id.main_nav);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.mainframe, new HomeFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.mainframe, new MainFragment()).commit();
         //  mMainNav.inflateMenu(R.menu.nav_items);
 
         mMainNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
