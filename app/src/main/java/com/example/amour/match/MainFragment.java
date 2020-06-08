@@ -9,9 +9,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.amour.R;
+import com.example.amour.Util.NotificationHelper;
 import com.example.amour.Util.PhotoAdapter;
 import com.example.amour.Util.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -37,6 +39,7 @@ public class MainFragment extends Fragment {
     private PhotoAdapter arrayAdapter;
     public RelativeLayout parentView;
     FloatingActionButton likeBtn, DislikeBtn;
+    private NotificationHelper mNotificationHelper;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,6 +47,7 @@ public class MainFragment extends Fragment {
         userDB = FirebaseDatabase.getInstance().getReference("userDetails");
         matchDB = FirebaseDatabase.getInstance().getReference("Matches");
         mAuth = FirebaseAuth.getInstance();
+        mNotificationHelper = new NotificationHelper(getActivity());
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
@@ -197,6 +201,8 @@ public class MainFragment extends Fragment {
                 if (dataSnapshot.exists()) {
                     matchDB.child(currentUID).child(matchedUID).child("Matches").setValue("saved");
                     matchDB.child(matchedUID).child(currentUID).child("Matches").setValue("saved");
+                    NotificationCompat.Builder nb = mNotificationHelper.getChannel1Notification("Amour", "You have a new match!");
+                    mNotificationHelper.getManager().notify(1, nb.build());
                 }
             }
 
@@ -238,7 +244,7 @@ public class MainFragment extends Fragment {
 
             getFragmentManager().beginTransaction().detach(this).attach(this).commit();
 
-        Toast.makeText(getActivity(), "LIT!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "LIT!", Toast.LENGTH_LONG).show();
+        }
     }
-}
 }
